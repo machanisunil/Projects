@@ -1,0 +1,109 @@
+<h1>Quiz</h1>
+
+<script src="http://uijavakit.com/downloads/react/react.min.js"></script>
+
+<script src="http://uijavakit.com/downloads/react/react-dom.min.js"></script>
+
+<script src="http://uijavakit.com/downloads/react/babel.js"></script>
+
+<style>
+  .time-left{
+  	position: fixed;
+  	font-size: 30px;
+  	right: 0;
+  	top: 0;
+  	color: red;
+  }
+</style>
+<div id="root"></div>
+
+<script type="text/babel">
+	class Quiz extends  React.Component{
+	     constructor(){
+	     super();
+	     this.state={
+	     'ans':{},
+	     'timeLeft':20,
+	     'isTestStart':true,
+	     'marks':'',
+	     'key':{
+	     '1':'A',
+	     '2':'B',
+	     '3':'B'
+	      }
+	     }
+	     this.fnChange=this.fnChange.bind(this);
+
+	   this.interVal=  setInterval(function(){
+	       let timeLeft=this.state.timeLeft-1;
+	       this.setState({
+	       'timeLeft':timeLeft
+	       })
+	       if(timeLeft==0){
+	       		
+	       		this.fnSubmitTest();
+	       }
+
+	     }.bind(this),1000);
+	 }
+
+
+
+     fnChange(e){
+     debugger;
+       this.setState({
+       		'ans':{
+       		...this.state.ans,
+       		[e.target.name]:e.target.value
+       	}
+       })
+      }
+
+     fnSubmitTest(){
+        clearInterval(this.interVal);
+        let keys=Object.keys(this.state.ans);
+        let marks=0;
+        keys.forEach((v)=>{
+           if(this.state.key[v] == this.state.ans[v]){
+           marks++;
+          }
+        });
+
+        this.setState({
+        'isTestStart':false,
+        'marks':marks
+    })
+
+     }
+	 render(){
+	 	return <div>
+	 		      <div><b>1.What is the selector for get first sibling?</b></div>
+	 		      <div><input type="radio" name="1" onChange={this.fnChange} value="A"/>+</div>
+	 		      <div><input type="radio" name="1" onChange={this.fnChange} value="B"/>~</div>
+	 		      <div><input type="radio" name="1" onChange={this.fnChange} value="C"/>-</div>
+	 		      <div><input type="radio" name="1" onChange={this.fnChange} value="D"/>?</div>
+	 		      <div><b>2.How to handle promise?</b></div>
+	 		      <div><input type="radio" name="2" onChange={this.fnChange} value="A"/>subscript</div>
+	 		      <div><input type="radio" name="2" onChange={this.fnChange} value="B"/>then</div>
+	 		      <div><input type="radio" name="2" onChange={this.fnChange} value="C"/>call back</div>
+	 		      <div><input type="radio" name="2" onChange={this.fnChange} value="D"/>none</div>
+	 		      <div><b>3.How to add evetn dynamically?</b></div>
+	 		      <div><input type="radio" name="3" onChange={this.fnChange} value="A"/>preventDefault</div>
+	 		      <div><input type="radio" name="3" onChange={this.fnChange} value="B"/>adddEventListener</div>
+	 		      <div><input type="radio" name="3" onChange={this.fnChange} value="C"/>bubbling</div>
+	 		      <div><input type="radio" name="3" onChange={this.fnChange} value="D"/>none</div>
+                  {
+                  	this.state.isTestStart &&  <input type="button" value="submit" onClick={this.fnSubmitTest.bind(this)} />
+                  }
+                  
+                  {
+                  	!this.state.isTestStart && <div>You got : {this.state.marks} Marks</div>
+                  }
+
+                  <b className="time-left">{this.state.timeLeft}</b>
+                  
+	 		    </div>
+	 }
+    }
+    ReactDOM.render(<Quiz />,document.getElementById('root'));
+</script>

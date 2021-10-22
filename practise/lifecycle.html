@@ -1,0 +1,69 @@
+<script src="http://uijavakit.com/downloads/react/react.min.js"></script>
+
+<script src="http://uijavakit.com/downloads/react/react-dom.min.js"></script>
+
+<script src="http://uijavakit.com/downloads/react/babel.js"></script>
+
+<div id="root"></div>
+
+
+<script type='text/babel'>
+    class Child extends React.Component{
+        static getDerivedStateFromProps(){
+            console.log('we received new prop')
+        }
+        render(){
+            return <h1>Am child: {this.props.n}</h1>
+        }
+    }
+    class App extends React.Component{
+        constructor(){
+            super();
+            this.state={
+                n:'sachin'
+            }
+            setTimeout(() => {
+                this.setState({
+                    'n':'dhoni'
+                })
+            }, 3000);
+            setTimeout(() => {
+                this.setState({
+                    'n':'kohli'
+                })
+            }, 6000);
+            console.log('constructor');
+        }
+        render(){
+            console.log('render');
+            return <h1>{this.state.n} <Child n={this.state.n} /></h1>
+        }
+        // componentWillMount(){
+        //     console.log('will mount');
+        // }
+        static getDerivedStateFromProps(props,state){
+            console.log('derived state from props');
+            return {
+
+            }
+        }
+        componentDidMount(){
+            console.log('did mount');
+        }
+        shouldComponentUpdate(){
+            console.log('should component update');
+            return true;
+        }
+
+        componentDidUpdate(){
+            console.log('did update');
+        }
+
+        getSnapshotBeforeUpdate(props,preState){
+            console.log('snap shot before update')
+        }
+        
+    }
+    
+    ReactDOM.render(<App l="mum" />,document.getElementById('root'));
+</script>

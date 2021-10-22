@@ -1,0 +1,27 @@
+<html>
+    <head>
+        <title> sorting of array </title>
+    </head>
+    <body>
+        <script>
+            var iNum=[];
+            var iCount;
+            var iNames;
+            var sName;
+
+            iNames = parseInt(prompt("enter value"));
+            if(iNames>0) 
+            {
+                for(iCount=0;iCount<iNames;iCount++)
+                {
+                    sName=prompt("enter name#"+(iCount+1));
+                    iNum.push(sName);
+                }
+                alert(iNum);
+                iNum.sort();
+                alert(iNum);
+
+            }
+        </script>
+    </body>
+</html>
